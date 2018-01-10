@@ -15,23 +15,19 @@ const params = {
 };
 
 Twitter.get('search/tweets', params, function(error, tweets, response) {
-  var tweet_list = tweets['statuses'];
+  const tweet_list = tweets['statuses'];
   
-  for (var i = 0; i < tweet_list.length; i++) {
-      // if ('retweeted_status' in tweet_list[i]) {
-      //     continue;
-      // } 
+  for (let i = 0; i < tweet_list.length; i++) {
+      if ('retweeted_status' in tweet_list[i]) {
+          continue;
+      } 
       console.log('--------------------------------tweet is', tweet_list[i]);
-      var screen_name = tweet_list[i].user.screen_name;
-      var message = "@" + screen_name + " Aww, how cute, im gonna steal your dog";
-      var tweet_id = tweet_list[i].id_str
-      // try {
-      //     Twitter.post('statuses/update', {"status": message, "in_reply_to_status_id":tweet_id}, function(error, tweet, response){
-      //           console.log("Here is what was tweeted:", error, tweet, response)
-      //     });
-      // }
-      // catch(err) {
-      //     console.log(err);
-      // }
+      const screen_name = tweet_list[i].user.screen_name;
+      const message = "@" + screen_name + " Aww, how cute, im gonna steal your dog";
+      const tweet_id = tweet_list[i].id_str
+      Twitter.post('statuses/update', {"status": message, "in_reply_to_status_id":tweet_id}, function(error, tweet, response){
+            console.log("Here is what was tweeted:", tweet);
+            console.log("-------Error is:", error);
+      });   
   }
 });
